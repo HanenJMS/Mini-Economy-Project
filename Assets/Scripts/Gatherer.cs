@@ -1,33 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Gatherer : MonoBehaviour
 {
-    Wood target = null;
+    Resource target = null;
     NavMeshAgent agent;
-    void Start()
+    Inventory inventory;
+    void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        inventory = GetComponent<Inventory>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(target == null)
+        if (target == null)
         {
-            foreach(Wood woods in FindObjectsOfType<Wood>())
+            foreach (Resource woods in FindObjectsOfType<Resource>())
             {
-                if (Vector3.Distance(this.transform.position, woods.transform.position) < 50)
-                {
-                    target = woods;
-                }
+
             }
+            return;
         }
-        if(target != null)
+        else if (target != null)
         {
-            agent.SetDestination(target.transform.position);   
+            agent.SetDestination(target.transform.position);
+        }
+        if (Vector3.Distance(this.transform.position, target.transform.position) < 2f)
+        {
+            Item item = target.GetComponent<Item>();
+            if(item != null)
+            {
+                inventory.AddItem(item);
+            }
+            target = null;
         }
     }
 }

@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] int value = 0;
+    public Item PickUpItem()
     {
-        
+        this.gameObject.SetActive(false);
+        return this;
     }
-
-    // Update is called once per frame
-    void Update()
+    public int GetValue()
     {
-        
+        return value;
     }
 }
