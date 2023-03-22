@@ -10,12 +10,13 @@ namespace MP.GOAP
         public string actionName = "Action";
         public float cost = 1.0f;
         public GameObject target;
-        public GameObject targetTag;
+        public string targetTag;
         public float duration = 0;
         public WorldState[] preConditions;
         public WorldState[] postConditions;
         public NavMeshAgent agent;
-
+        public WorldStates agentBeliefs;
+        public Inventory inventory;
         public Dictionary<string, int> preconditions;
         public Dictionary<string, int> conditions;
 
@@ -32,7 +33,8 @@ namespace MP.GOAP
         public void Awake()
         {
             agent = this.gameObject.GetComponent<NavMeshAgent>();
-
+            inventory = this.gameObject.GetComponent<Inventory>();
+            agentBeliefs = this.gameObject.GetComponent<GAgent>().agentBeliefs;
             if (preConditions != null)
                 foreach (WorldState w in preConditions)
                 {
@@ -44,7 +46,6 @@ namespace MP.GOAP
                 {
                     conditions.Add(w.key, w.value);
                 }
-
         }
 
         public bool IsAchievable()

@@ -1,3 +1,5 @@
+using MP.GOAP;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -6,10 +8,12 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] List<Item> items = new List<Item>();
+    WorldStates inventoryState = new WorldStates();
     [SerializeField] int gold = 0;
     public void PickUpItem(Item item)
     {
         items.Add(item.PickUpItem());
+        inventoryState.ModifyState(item.GetState(), item.GetQuantity());
     }
     public void AddItem(Item item)
     {
@@ -18,6 +22,23 @@ public class Inventory : MonoBehaviour
     public void RemoveItem(Item item)
     {
         items.Remove(item);
+        inventoryState.ModifyState(item.GetState(), -item.GetQuantity());
+    }
+    public Item IsItemAvailable(string state)
+    {
+        if (inventoryState.GetStates().ContainsKey(state))
+        {
+            int removeIndex = 0;
+            for(removeIndex = 0; removeIndex < items.Count; removeIndex++)
+            {
+                if (items[removeIndex].GetState() == state)
+                {
+                    break;
+                }
+            }
+            return items[removeIndex];
+        }
+        return null;
     }
     public bool RequestItemAvailable(Item itemType)
     {
@@ -34,5 +55,10 @@ public class Inventory : MonoBehaviour
     public List<Item> GetInventoryList()
     {
         return items;
+    }
+
+    public Dictionary<string, int> GetInventoryState()
+    {
+        return inventoryState.GetStates();
     }
 }

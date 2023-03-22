@@ -1,0 +1,21 @@
+
+
+using System.Collections.Generic;
+
+namespace MP.GOAP
+{
+    public class CheckInventory : GAction
+    {
+        public override bool PrePerform()
+        {
+            return true;
+        }
+        public override bool PostPerform()
+        {
+            
+            return true;
+        }
+
+
+    }
+}
