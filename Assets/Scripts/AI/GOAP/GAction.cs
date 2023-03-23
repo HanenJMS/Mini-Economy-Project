@@ -9,7 +9,7 @@ namespace MP.GOAP
     {
         public string actionName = "Action";
         public float cost = 1.0f;
-        public GameObject target;
+        public UnityEngine.GameObject target;
         public string targetTag;
         public float duration = 0;
         public WorldState[] preConditions;

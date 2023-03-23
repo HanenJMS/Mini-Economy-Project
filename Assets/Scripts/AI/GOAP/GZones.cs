@@ -7,11 +7,12 @@ namespace MP.GOAP
     {
         //TODO refactor GWorld to be more zone-like feature. i.e. Hospital is a region, as is an island, adventure's guild, castle, and towns, and cities.
         private WorldStates world;
-        private AgentList agents;
+        private ResourceList agents;
+        private Dictionary<string, ResourceSeparator> resourceLists = new Dictionary<string, ResourceSeparator>();
         public GZones()
         {
             world = new WorldStates();
-            agents = new AgentList();
+            agents = new ResourceList("","");
         }
         public WorldStates GetWorld()
         {
@@ -19,11 +20,7 @@ namespace MP.GOAP
         }
         private void OnTriggerEnter(Collider other)
         {
-            if(other.TryGetComponent<GAgent>(out GAgent agent))
-            {
-                AddAgent(agent);
-            }
-            if(other.TryGetComponent<Item>(out Item item))
+            if(other.TryGetComponent<IInteractable>(out IInteractable interaction))
             {
 
             }
@@ -35,14 +32,14 @@ namespace MP.GOAP
                 RemoveAgent(agent);
             }
         }
-        void AddAgent(GAgent agentEnteredZone)
+        void Add(GAgent agentEnteredZone)
         {
-            agents.AddAgent(agentEnteredZone);
-            agentEnteredZone.UpdateCurrentZone(this);
+            agents.AddResource(agentEnteredZone.gameObject);
+            agentEnteredZone.GetComponent<GAgent>().UpdateCurrentZone(this);
         }
         void RemoveAgent(GAgent agentLeavingZone)
         {
-            agents.RemoveAgent(agentLeavingZone);
+            agents.RemoveResource(agentLeavingZone.gameObject);
         }
 
     }

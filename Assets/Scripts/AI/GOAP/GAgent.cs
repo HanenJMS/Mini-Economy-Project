@@ -98,7 +98,7 @@ namespace MP.GOAP
                 {
                     if(currentAction.target == null && currentAction.targetTag != "")
                     {
-                        currentAction.target = GameObject.FindWithTag(currentAction.targetTag);
+                        currentAction.target = UnityEngine.GameObject.FindWithTag(currentAction.targetTag);
                     }
                     if(currentAction.target != null)
                     {

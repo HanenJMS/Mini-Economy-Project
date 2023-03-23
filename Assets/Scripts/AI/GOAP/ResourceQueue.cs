@@ -3,24 +3,18 @@ using UnityEngine;
 
 namespace MP.GOAP
 {
-    public class ResourceQueue
+    public class ResourceQueue : ResourceSeparator
     {
-        public Queue<IInteractable> queue = new Queue<IInteractable>();
-        public string tag;
-        public string modState;
-        public ResourceQueue(string tag, string modState)
+        public Queue<GameObject> queue = new Queue<GameObject>();
+
+        public ResourceQueue(string tag, string modState) : base(tag, modState)
         {
-            this.tag = tag;
-            this.modState = modState;
+            
         }
-        public void AddResource(IInteractable resource)
+
+        public override void AddResource(GameObject resource)
         {
             queue.Enqueue(resource);
-        }
-        public IInteractable GetResource()
-        {
-            if (queue.Count == 0) return null;
-            return queue.Dequeue();
         }
     }
 }
