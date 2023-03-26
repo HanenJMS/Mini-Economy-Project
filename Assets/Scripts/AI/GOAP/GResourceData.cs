@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace MP.GOAP
 {
-    public abstract class ResourceSeparator : MonoBehaviour
+    public class GResourceData : MonoBehaviour
     {
-        public string tag;
+        public string resourceNameType;
         public string modState;
-        public ResourceSeparator(string tag, string modState)
+        public GResourceData(string nameType, string modState)
         {
-            this.tag = tag;
+            this.resourceNameType = nameType;
             this.modState = modState;
         }
         public virtual void AddResource(GameObject resource)
@@ -22,7 +22,10 @@ namespace MP.GOAP
         {
             if (resource == null) return;
         }
-
+        public virtual object GetResource()
+        {
+            return null;
+        }
     }
 }
 

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace MP.GOAP
 {
-    public class ResourceList : ResourceSeparator
+    public class ResourceList : GResourceData
     {
         private List<GameObject> list = new List<GameObject>();
 
-        public ResourceList(string tag, string modState) : base(tag, modState)
+        public ResourceList(string nameType, string modState) : base(nameType, modState)
         {
         }
 

@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using MP.GOAP.Interfaces;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace MP.GOAP
 {
-    public class GAgent : MonoBehaviour, IInteractable
+    public class GAgent : GInteract
     {
         public List<GAction> actionList = new List<GAction>();
         public Dictionary<SubGoal, int> agentGoals = new Dictionary<SubGoal, int>();
@@ -15,7 +16,7 @@ namespace MP.GOAP
         public GAction currentAction;
         SubGoal currentGoal;
         bool invoked = false;
-        public GZones currentZone;
+
         AgentState agentState = AgentState.Idle;
         public void Start()
         {
@@ -27,27 +28,7 @@ namespace MP.GOAP
         }
         private void LateUpdate()
         {
-            UpdateCurrentZone(null);
             GOAPBehaviour();
-        }
-        public void UpdateCurrentZone(GZones receivingZone)
-        {
-            if(receivingZone != null)
-                this.currentZone = receivingZone;
-            //else
-            //{
-            //    Ray agentPosition = Camera.main.ScreenPointToRay(this.transform.position);
-            //    RaycastHit[] allHits = Physics.SphereCastAll(agentPosition, 3f);
-            //    foreach(RaycastHit hit in allHits)
-            //    {
-            //        GWorld zone = hit.transform.GetComponent<GWorld>();
-            //        if (zone != null)
-            //        {
-            //            receivingZone = zone;
-            //            break;
-            //        }
-            //    }
-            //}
         }
         void CompleteAction()
         {

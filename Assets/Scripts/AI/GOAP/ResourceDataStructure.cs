@@ -1,16 +1,20 @@
-using UnityEngine;
+using MP.GOAP.Interfaces;
 namespace MP.GOAP
 {
-    public class ResourceDataStructure : MonoBehaviour
+    public class ResourceDataStructure
     {
-
-        public virtual object CreateResourceList(GameObject resource)
+        public static object CreateResourceList(GInteractInterface resource)
         {
-            ResourceList newList = new ResourceList("", "");
+            GResourceData newList = null;
+            if (resource.DataStorageType().Equals(GDataStorageType.List))
+            {
+                newList = new ResourceList(resource.ObjectName(), resource.ObjectModState());
+            }
+            if (resource.DataStorageType().Equals(GDataStorageType.Queue))
+            {
+                newList = new ResourceQueue(resource.ObjectName(), resource.ObjectModState());
+            }
             return newList;
-            ResourceQueue newQueue = new ResourceQueue("", "");
-            return newQueue;
-            
         }
     }
 }

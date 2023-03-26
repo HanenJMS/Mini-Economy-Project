@@ -1,8 +1,5 @@
 using MP.GOAP;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -13,7 +10,7 @@ public class Inventory : MonoBehaviour
     public void PickUpItem(Item item)
     {
         items.Add(item.PickUpItem());
-        inventoryState.ModifyState(item.GetState(), item.GetQuantity());
+        inventoryState.ModifyState(item.ObjectModState(), item.GetQuantity());
     }
     public void AddItem(Item item)
     {
@@ -22,16 +19,16 @@ public class Inventory : MonoBehaviour
     public void RemoveItem(Item item)
     {
         items.Remove(item);
-        inventoryState.ModifyState(item.GetState(), -item.GetQuantity());
+        inventoryState.ModifyState(item.ObjectModState(), -item.GetQuantity());
     }
     public Item IsItemAvailable(string state)
     {
         if (inventoryState.GetStates().ContainsKey(state))
         {
             int removeIndex = 0;
-            for(removeIndex = 0; removeIndex < items.Count; removeIndex++)
+            for (removeIndex = 0; removeIndex < items.Count; removeIndex++)
             {
-                if (items[removeIndex].GetState() == state)
+                if (items[removeIndex].ObjectModState() == state)
                 {
                     break;
                 }

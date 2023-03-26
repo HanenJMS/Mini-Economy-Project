@@ -628,9 +628,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb88295d45789a24a999f01a6ef57757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectTypeName: Agent
+  objectModState: 
+  gDataStorageType: 11
+  currentZone: {fileID: 0}
   actionList: []
   currentAction: {fileID: 0}
-  currentZone: {fileID: 0}
 --- !u!54 &716046784
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -901,7 +904,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16b2ab91e6bfd324b8c128cf3595c421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectTypeName: Wood
+  objectModState: AvailableWood
+  gDataStorageType: 12
+  currentZone: {fileID: 0}
   value: 0
-  state: hasWood
-  itemIdentifierHere: 
   qty: 5

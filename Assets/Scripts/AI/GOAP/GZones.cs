@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MP.GOAP.Interfaces;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MP.GOAP
@@ -7,12 +8,10 @@ namespace MP.GOAP
     {
         //TODO refactor GWorld to be more zone-like feature. i.e. Hospital is a region, as is an island, adventure's guild, castle, and towns, and cities.
         private WorldStates world;
-        private ResourceList agents;
-        private Dictionary<string, ResourceSeparator> resourceLists = new Dictionary<string, ResourceSeparator>();
+        private Dictionary<string, GResourceData> resourceLists = new Dictionary<string, GResourceData>();
         public GZones()
         {
             world = new WorldStates();
-            agents = new ResourceList("","");
         }
         public WorldStates GetWorld()
         {
@@ -20,27 +19,27 @@ namespace MP.GOAP
         }
         private void OnTriggerEnter(Collider other)
         {
-            if(other.TryGetComponent<IInteractable>(out IInteractable interaction))
+            GInteractInterface gi = other.GetComponent<GInteractInterface>();
+            if (gi == null) return;
+            if (!resourceLists.ContainsKey(gi.ObjectName()))
             {
-
+                GResourceData newList = (GResourceData)ResourceDataStructure.CreateResourceList(gi);
+                resourceLists.Add(gi.ObjectName(), newList);
+                gi.UpdateCurrentZone(this);
+            }
+            else if(resourceLists.ContainsKey(gi.ObjectName()))
+            {
+                resourceLists[gi.ObjectName()].AddResource(other.gameObject);
             }
         }
         private void OnTriggerExit(Collider other)
         {
-            if (other.TryGetComponent<GAgent>(out GAgent agent))
+            GInteractInterface gi = other.GetComponent<GInteractInterface>();
+            if (gi == null) return;
+            if (resourceLists.ContainsKey(gi.ObjectName()))
             {
-                RemoveAgent(agent);
+                resourceLists[gi.ObjectName()].RemoveResource(other.gameObject);
             }
         }
-        void Add(GAgent agentEnteredZone)
-        {
-            agents.AddResource(agentEnteredZone.gameObject);
-            agentEnteredZone.GetComponent<GAgent>().UpdateCurrentZone(this);
-        }
-        void RemoveAgent(GAgent agentLeavingZone)
-        {
-            agents.RemoveResource(agentLeavingZone.gameObject);
-        }
-
     }
 }

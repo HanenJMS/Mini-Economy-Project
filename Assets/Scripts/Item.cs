@@ -1,12 +1,11 @@
+using MP.GOAP.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item : GInteract
 {
     [SerializeField] int value = 0;
-    [SerializeField] string state = "";
-    [SerializeField] string itemIdentifierHere = "";
     [SerializeField] int qty = 0;
     public Item PickUpItem()
     {
@@ -20,9 +19,5 @@ public class Item : MonoBehaviour
     public int GetQuantity()
     {
         return qty;
-    }
-    public string GetState()
-    {
-        return state;
     }
 }
