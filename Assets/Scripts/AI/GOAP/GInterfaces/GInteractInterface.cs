@@ -5,9 +5,10 @@ namespace MP.GOAP.Interfaces
         public string ObjectType();
         public string ObjectModState();
         public string ObjectName();
-        public string ObjectStateModifier();
+        public int ObjectStateModifierAmount();
         public GDataStorageType DataStorageType();
         public void UpdateCurrentZone(object currentZone);
+        public object ChangeCurrentZone();
     }
 }
 

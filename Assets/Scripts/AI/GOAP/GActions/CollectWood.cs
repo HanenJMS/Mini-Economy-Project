@@ -1,10 +1,9 @@
 namespace MP.GOAP.Actions
 {
-    public class GoToTarget : GAction
+    public class CollectWood : GAction
     {
         public override bool PrePerform()
         {
-            //ActionType.Run();
             return true;
         }
         public override bool PostPerform()

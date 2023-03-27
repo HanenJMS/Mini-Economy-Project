@@ -9,6 +9,7 @@ namespace MP.GOAP
     public class GAgent : GInteract
     {
         public List<GAction> actionList = new List<GAction>();
+        public List<WorldState> goalStates = new List<WorldState>();
         public Dictionary<SubGoal, int> agentGoals = new Dictionary<SubGoal, int>();
         public WorldStates agentBeliefs = new WorldStates();
         GPlanner actionPLanner;
@@ -25,10 +26,21 @@ namespace MP.GOAP
             {
                 actionList.Add(action);
             }
+            currentZone = FindObjectOfType<GZones>();
+            foreach(WorldState state in goalStates)
+            {
+                SetGoal(state);
+            }
         }
         private void LateUpdate()
         {
+            
             GOAPBehaviour();
+        }
+        private void SetGoal(WorldState goalState)
+        {
+            SubGoal goal = new SubGoal(goalState.key, goalState.value, goalState.remove);
+            agentGoals.Add(goal, goalState.value);
         }
         void CompleteAction()
         {
@@ -40,7 +52,7 @@ namespace MP.GOAP
         {
             if (currentAction != null && currentAction.running)
             {
-                if (currentAction.agent.hasPath && currentAction.agent.remainingDistance > 1f)
+                if (currentAction.agent.hasPath && currentAction.agent.remainingDistance < 1f)
                 {
                     if (!invoked)
                     {
@@ -77,11 +89,11 @@ namespace MP.GOAP
                 currentAction = actionQueue.Dequeue();
                 if(currentAction.PrePerform())
                 {
-                    if(currentAction.target == null && currentAction.targetTag != "")
+                    if (currentAction.target == null && currentAction.objectiveName != "")
                     {
-                        currentAction.target = UnityEngine.GameObject.FindWithTag(currentAction.targetTag);
+                        currentAction.UpdateTarget(currentAction.objectiveName);
                     }
-                    if(currentAction.target != null)
+                    if (currentAction.target != null)
                     {
                         currentAction.running = true;
                         currentAction.agent.SetDestination(currentAction.target.transform.position);
@@ -89,6 +101,8 @@ namespace MP.GOAP
                 }
                 else
                 {
+
+                    
                     actionQueue = null;
                 }
             }

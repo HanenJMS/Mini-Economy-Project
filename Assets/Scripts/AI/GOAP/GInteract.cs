@@ -9,8 +9,14 @@ public class GInteract : MonoBehaviour, GInteractInterface
 {
     public string objectTypeName = "";
     public string objectModState = "";
+    public int objectModAmount = 1;
     public GDataStorageType gDataStorageType = GDataStorageType.List;
     public GZones currentZone;
+
+    public object ChangeCurrentZone()
+    {
+        return currentZone;
+    }
 
     public GDataStorageType DataStorageType()
     {
@@ -27,9 +33,9 @@ public class GInteract : MonoBehaviour, GInteractInterface
         return objectTypeName;
     }
 
-    public string ObjectStateModifier()
+    public int ObjectStateModifierAmount()
     {
-        return "";
+        return objectModAmount;
     }
 
     public string ObjectType()

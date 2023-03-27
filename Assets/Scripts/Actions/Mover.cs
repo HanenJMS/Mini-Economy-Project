@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Mover : Action
+public class Mover : MonoBehaviour
 {
     NavMeshAgent agent;
     private void Awake()

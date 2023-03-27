@@ -5,8 +5,8 @@ namespace MP.GOAP.AgentTypes
         private void Start()
         {
             base.Start();
-            SubGoal s1 = new SubGoal("atTarget", 1, true);
-            agentGoals.Add(s1, 1);
+            SubGoal hasWood = new SubGoal("hasWood", 1, true);
+            agentGoals.Add(hasWood, 1);
         }
     }
 }

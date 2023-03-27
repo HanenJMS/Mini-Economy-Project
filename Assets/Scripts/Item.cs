@@ -14,10 +14,16 @@ public class Item : GInteract
     }
     public int GetValue()
     {
+        UpdateModValues();
         return value;
     }
     public int GetQuantity()
     {
+        UpdateModValues();
         return qty;
+    }
+    void UpdateModValues()
+    {
+        objectModAmount = qty;
     }
 }

@@ -21,7 +21,7 @@ public class Inventory : MonoBehaviour
         items.Remove(item);
         inventoryState.ModifyState(item.ObjectModState(), -item.GetQuantity());
     }
-    public Item IsItemAvailable(string state)
+    public Item FindItemWithName(string state)
     {
         if (inventoryState.GetStates().ContainsKey(state))
         {

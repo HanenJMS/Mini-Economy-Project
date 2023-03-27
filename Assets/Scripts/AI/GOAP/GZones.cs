@@ -12,6 +12,14 @@ namespace MP.GOAP
         public GZones()
         {
             world = new WorldStates();
+
+        }
+        private void Start()
+        {
+            foreach (GInteract i in FindObjectsOfType<GInteract>())
+            {
+                AddResource(i.gameObject);
+            }
         }
         public WorldStates GetWorld()
         {
@@ -19,27 +27,60 @@ namespace MP.GOAP
         }
         private void OnTriggerEnter(Collider other)
         {
+            AddResource(other.gameObject);
+        }
+
+        private void AddResource(GameObject other)
+        {
             GInteractInterface gi = other.GetComponent<GInteractInterface>();
             if (gi == null) return;
             if (!resourceLists.ContainsKey(gi.ObjectName()))
             {
                 GResourceData newList = (GResourceData)ResourceDataStructure.CreateResourceList(gi);
                 resourceLists.Add(gi.ObjectName(), newList);
+                world.ModifyState(gi.ObjectModState(), gi.ObjectStateModifierAmount());
                 gi.UpdateCurrentZone(this);
             }
-            else if(resourceLists.ContainsKey(gi.ObjectName()))
+            else if (resourceLists.ContainsKey(gi.ObjectName()))
             {
                 resourceLists[gi.ObjectName()].AddResource(other.gameObject);
+                world.ModifyState(gi.ObjectModState(), gi.ObjectStateModifierAmount());
             }
         }
+
         private void OnTriggerExit(Collider other)
+        {
+            RemoveResource(other);
+        }
+
+        private void RemoveResource(Collider other)
         {
             GInteractInterface gi = other.GetComponent<GInteractInterface>();
             if (gi == null) return;
             if (resourceLists.ContainsKey(gi.ObjectName()))
             {
                 resourceLists[gi.ObjectName()].RemoveResource(other.gameObject);
+                world.ModifyState(gi.ObjectModState(), -gi.ObjectStateModifierAmount());
             }
+        }
+
+        public GameObject GetResource(string resourceName)
+        {
+            GameObject resource = null;
+            if(resourceLists.ContainsKey(resourceName))
+            {
+                resource = (GameObject)resourceLists[resourceName].GetResource();
+            }
+            return resource;
+        }
+        public string GetZoneInventory()
+        {
+            string zoneInventory = "";
+            foreach(KeyValuePair<string, GResourceData> keyValuePair in resourceLists)
+            {
+                zoneInventory += $"{keyValuePair.Key} \n";
+            }
+            return zoneInventory;
         }
     }
 }

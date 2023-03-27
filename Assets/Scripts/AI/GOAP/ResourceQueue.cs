@@ -24,6 +24,7 @@ namespace MP.GOAP
         }
         public override object GetResource()
         {
+            if (queue.Count == 0) return null;
             return (object)queue.Dequeue();
         }
     }

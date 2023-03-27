@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MP.GOAP.Interfaces;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,7 +11,8 @@ namespace MP.GOAP
         public string actionName = "Action";
         public float cost = 1.0f;
         public UnityEngine.GameObject target;
-        public string targetTag;
+        public string objectiveName;
+        public string modState;
         public float duration = 0;
         public WorldState[] preConditions;
         public WorldState[] postConditions;
@@ -21,7 +23,7 @@ namespace MP.GOAP
         public Dictionary<string, int> conditions;
 
         public WorldStates personalWorldStates;
-
+        public GZones currentZone;
         public bool running = false;
 
         public GAction()
@@ -46,8 +48,12 @@ namespace MP.GOAP
                 {
                     conditions.Add(w.key, w.value);
                 }
+            
         }
-
+        private void Start()
+        {
+            UpdateTarget(objectiveName);
+        }
         public bool IsAchievable()
         {
             return true;
@@ -62,8 +68,22 @@ namespace MP.GOAP
             }
             return true;
         }
-
+        public void UpdateTarget(string objectName)
+        {
+            if (currentZone == null)
+                UpdateCurrentZone();
+            if (target == null && this.objectiveName == objectName)
+            {
+                target = currentZone.GetResource(objectName);
+            }
+            if (target == null) return;
+        }
         public abstract bool PrePerform();
         public abstract bool PostPerform();
+        public void UpdateCurrentZone()
+        {
+            
+                currentZone = (GZones)GetComponent<GInteractInterface>().ChangeCurrentZone();
+        }
     }
 }
