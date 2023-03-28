@@ -11,6 +11,7 @@ public class GInteract : MonoBehaviour, GInteractInterface
     public string objectModState = "";
     public int objectModAmount = 1;
     public GDataStorageType gDataStorageType = GDataStorageType.List;
+    public GDataStorageType gModStateDataStoreType;
     public GZones currentZone;
 
     public object ChangeCurrentZone()
@@ -41,6 +42,13 @@ public class GInteract : MonoBehaviour, GInteractInterface
     public string ObjectType()
     {
         return "";
+    }
+
+    public GDataStorageType SetModStateStorageType(GDataStorageType storageType)
+    {
+        if (storageType == null) return DataStorageType();
+        gModStateDataStoreType = storageType;
+        return gModStateDataStoreType;
     }
 
     public void UpdateCurrentZone(object currentZone)

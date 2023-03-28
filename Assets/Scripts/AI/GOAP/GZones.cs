@@ -29,8 +29,11 @@ namespace MP.GOAP
         {
             AddResource(other.gameObject);
         }
-
-        private void AddResource(GameObject other)
+        private void OnTriggerExit(Collider other)
+        {
+            RemoveResource(other.gameObject);
+        }
+        public void AddResource(GameObject other)
         {
             GInteractInterface gi = other.GetComponent<GInteractInterface>();
             if (gi == null) return;
@@ -47,13 +50,7 @@ namespace MP.GOAP
                 world.ModifyState(gi.ObjectModState(), gi.ObjectStateModifierAmount());
             }
         }
-
-        private void OnTriggerExit(Collider other)
-        {
-            RemoveResource(other);
-        }
-
-        private void RemoveResource(Collider other)
+        public void RemoveResource(GameObject other)
         {
             GInteractInterface gi = other.GetComponent<GInteractInterface>();
             if (gi == null) return;

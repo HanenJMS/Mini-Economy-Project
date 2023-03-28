@@ -12,6 +12,14 @@ public class Item : GInteract
         this.gameObject.SetActive(false);
         return this;
     }
+    public void AddQty(int qty)
+    {
+        this.qty += qty;
+    }
+    public void SubtractQty(int qty)
+    {
+        this.qty -= qty;
+    }
     public int GetValue()
     {
         UpdateModValues();

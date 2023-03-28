@@ -1,6 +1,7 @@
 ﻿using MP.GOAP.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -77,6 +78,10 @@ namespace MP.GOAP
                 target = currentZone.GetResource(objectName);
             }
             if (target == null) return;
+        }
+        public void AddBelief(string modState, int value)
+        {
+            agentBeliefs.ModifyState(modState, value);
         }
         public abstract bool PrePerform();
         public abstract bool PostPerform();
