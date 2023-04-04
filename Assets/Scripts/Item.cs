@@ -32,6 +32,6 @@ public class Item : GInteract
     }
     void UpdateModValues()
     {
-        objectModAmount = qty;
+        objectStateModifierAmount = qty;
     }
 }

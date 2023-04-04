@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search;
 using UnityEngine;
 
 namespace MP.GOAP
@@ -25,6 +26,11 @@ namespace MP.GOAP
             if (!list.Contains(resource)) return;
             list.Remove(resource);
             return;
+        }
+        public override object GetResource()
+        {
+            if (list.Count == 0) return null;
+            return (object)list[0];
         }
     }
 }

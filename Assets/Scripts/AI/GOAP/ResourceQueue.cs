@@ -15,11 +15,13 @@ namespace MP.GOAP
 
         public override void AddResource(GameObject resource)
         {
+            if (queue.Contains(resource)) return;
             queue.Enqueue(resource);
         }
 
         public override void RemoveResource(GameObject resource)
         {
+            if (!queue.Contains(resource)) return;
             queue = new Queue<GameObject>(queue.Where(x => x != resource));
         }
         public override object GetResource()

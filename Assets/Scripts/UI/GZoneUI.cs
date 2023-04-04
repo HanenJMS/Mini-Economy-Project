@@ -1,21 +1,24 @@
+using MP.GOAP;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GZoneUI : MonoBehaviour
 {
-    Text text;
-    [SerializeField] PlayerController playerController;
-    private void Awake()
-    {
-        text = GetComponentInChildren<Text>();
-    }
+    [SerializeField] TextMeshProUGUI worldstates;
+    [SerializeField] GZones selectedZone;
     private void Start()
     {
-        playerController = FindObjectOfType<PlayerController>();
-        playerController.OnSelectedZone += UpdateZone;
+        worldstates = GetComponent<TextMeshProUGUI>();
     }
-    public void UpdateZone()
+    private void LateUpdate()
     {
-        text.text = playerController.ReturnInventoryState();
+        Dictionary<string, int> worldStates = selectedZone.GetWorld().GetStates();
+        worldstates.text = "";
+        foreach (KeyValuePair<string, int> s in worldStates)
+        {
+            worldstates.text += $"{s.Key}, {s.Value} \n";
+        }
     }
 }

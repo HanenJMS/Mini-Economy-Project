@@ -1,10 +1,7 @@
-﻿using MP.GOAP.Interfaces;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
-namespace MP.GOAP
+namespace MP.GOAP.Core
 {
     public class GAgent : GInteract
     {
@@ -27,14 +24,14 @@ namespace MP.GOAP
                 actionList.Add(action);
             }
             currentZone = FindObjectOfType<GZones>();
-            foreach(WorldState state in goalStates)
+            foreach (WorldState state in goalStates)
             {
                 SetGoal(state);
             }
         }
         private void LateUpdate()
         {
-            
+
             GOAPBehaviour();
         }
         private void SetGoal(WorldState goalState)
@@ -66,28 +63,28 @@ namespace MP.GOAP
             {
                 actionPLanner = new GPlanner();
                 var sortedGoals = from entry in agentGoals orderby entry.Value descending select entry;
-                foreach(KeyValuePair<SubGoal, int> agentgoals in sortedGoals)
+                foreach (KeyValuePair<SubGoal, int> agentgoals in sortedGoals)
                 {
                     actionQueue = actionPLanner.plan(actionList, agentgoals.Key.subGoals, agentBeliefs, currentZone);
-                    if(actionQueue != null)
+                    if (actionQueue != null)
                     {
                         currentGoal = agentgoals.Key;
                         break;
                     }
                 }
             }
-            if(actionQueue != null && actionQueue.Count == 0)
+            if (actionQueue != null && actionQueue.Count == 0)
             {
-                if(currentGoal.remove)
+                if (currentGoal.remove)
                 {
                     agentGoals.Remove(currentGoal);
                 }
                 actionPLanner = null;
             }
-            if(actionQueue != null && actionQueue.Count > 0)
+            if (actionQueue != null && actionQueue.Count > 0)
             {
                 currentAction = actionQueue.Dequeue();
-                if(currentAction.PrePerform())
+                if (currentAction.PrePerform())
                 {
                     if (currentAction.target == null && currentAction.objectiveName != "")
                     {
@@ -101,8 +98,6 @@ namespace MP.GOAP
                 }
                 else
                 {
-
-                    
                     actionQueue = null;
                 }
             }

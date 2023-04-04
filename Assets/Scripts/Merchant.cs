@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Merchant : MonoBehaviour
 {
+    public int merchantGoalAmount = 0;
     Inventory inventory;
     int potentialValue = 0;
     private void Start()

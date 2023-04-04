@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace MP.GOAP
+namespace MP.GOAP.Core
 {
     public class GPlanner
     {
@@ -69,7 +69,7 @@ namespace MP.GOAP
                 if (action.IsAchievableGiven(parent.state))
                 {
                     Dictionary<string, int> currentState = new Dictionary<string, int>(parent.state);
-                    foreach (KeyValuePair<string, int> eff in action.conditions)
+                    foreach (KeyValuePair<string, int> eff in action.postconditions)
                     {
                         if (!currentState.ContainsKey(eff.Key))
                         {

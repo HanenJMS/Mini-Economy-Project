@@ -1,7 +1,6 @@
-﻿using MP.GOAP.Interfaces;
-using System.Collections;
+﻿using MP.GOAP.Core;
+using MP.GOAP.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,13 +14,14 @@ namespace MP.GOAP
         public string objectiveName;
         public string modState;
         public float duration = 0;
+        public int quantity = 0;
         public WorldState[] preConditions;
         public WorldState[] postConditions;
         public NavMeshAgent agent;
         public WorldStates agentBeliefs;
         public Inventory inventory;
         public Dictionary<string, int> preconditions;
-        public Dictionary<string, int> conditions;
+        public Dictionary<string, int> postconditions;
 
         public WorldStates personalWorldStates;
         public GZones currentZone;
@@ -30,7 +30,7 @@ namespace MP.GOAP
         public GAction()
         {
             preconditions = new Dictionary<string, int>();
-            conditions = new Dictionary<string, int>();
+            postconditions = new Dictionary<string, int>();
         }
 
         public void Awake()
@@ -47,9 +47,9 @@ namespace MP.GOAP
             if (postConditions != null)
                 foreach (WorldState w in postConditions)
                 {
-                    conditions.Add(w.key, w.value);
+                    postconditions.Add(w.key, w.value);
                 }
-            
+
         }
         private void Start()
         {
@@ -73,11 +73,10 @@ namespace MP.GOAP
         {
             if (currentZone == null)
                 UpdateCurrentZone();
-            if (target == null && this.objectiveName == objectName)
+            if (currentZone != null && target == null && this.objectiveName == objectName)
             {
                 target = currentZone.GetResource(objectName);
             }
-            if (target == null) return;
         }
         public void AddBelief(string modState, int value)
         {
@@ -87,8 +86,8 @@ namespace MP.GOAP
         public abstract bool PostPerform();
         public void UpdateCurrentZone()
         {
-            
-                currentZone = (GZones)GetComponent<GInteractInterface>().ChangeCurrentZone();
+
+            currentZone = (GZones)GetComponent<GInteractInterface>().ChangeCurrentZone();
         }
     }
 }

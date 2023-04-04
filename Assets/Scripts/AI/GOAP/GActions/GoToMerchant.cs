@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace MP.GOAP.Actions
 {
-    public class GetItem : GAction
+    public class GoToMerchant : GAction
     {
         public override bool PrePerform()
         {
-            target = currentZone.GetResource(objectiveName);
+            target = currentZone.GetResource("WoodMerchant");
             if(target == null)
             {
                 return false;
@@ -16,9 +16,8 @@ namespace MP.GOAP.Actions
         }
         public override bool PostPerform()
         {
-            inventory.PickUpItem(target.GetComponent<Item>().PickUpItem());
-            currentZone.GetWorld().ModifyState("AvailableWood", -quantity);
-            agentBeliefs.ModifyState(modState, quantity);
+
+            currentZone.RemoveResource(target, "WoodMerchant", "AvailableWoodMerchant", 1);
             return true;
         }
     }
